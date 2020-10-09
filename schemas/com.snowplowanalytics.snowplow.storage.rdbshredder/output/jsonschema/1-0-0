@@ -1,0 +1,68 @@
+{
+  "$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
+    "description": "Schema for information about the shredded data, for loader to read",
+    "self": {
+      "vendor": "com.snowplowanalytics.snowplow.storage.rdbshredder",
+      "name": "output",
+      "format": "jsonschema",
+      "version": "1-0-0"
+    },
+    "type": "object",
+    "properties": {
+      "s3_path" : {
+        "description": "S3 path containing shredded data",
+        "type": "string",
+        "minLength": 10
+      },
+      "min_timestamp": {
+        "description": "Minimum timestamp in shredded data",
+        "type": "string",
+        "format": "date-time"
+      },
+      "max_timestamp": {
+        "description": "Maximum timestamp in shredded data",
+        "type": "string",
+        "format": "date-time"
+      },
+      "shredded_types": {
+        "description": "List of shredded types with cardinality",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "Information about one shredded type",
+          "properties" : {
+            "vendor": {
+              "description": "Vendor of the shredded type",
+              "type": "string",
+              "minLength": 1
+            },
+            "name": {
+              "description": "Name of the shredded type",
+              "type": "string",
+              "minLength": 1
+            },
+            "format": {
+              "description": "Format of the shredded type",
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "description": "Version of the shredded type",
+              "type": "string",
+              "minLength": 1
+            },
+            "nb_elements": {
+              "description": "Number of elements of the shredded type",
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": ["vendor", "name", "format", "version", "nb_elements"],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      }
+    },
+    "required": ["s3_path", "min_timestamp", "max_timestamp", "shredded_types"],
+    "additionalProperties": false
+}
